@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Caching</title>
+
+    <style>
+        #error{
+            color:  red;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>HTTP Caching</h1>
+
+    <button id="btn1">Fetch New Data</button>
+    <button id="btn2">Fetched Cached Data</button>
+
+        <h1>Response : </h1>
+
+        <div id="res"> </div>
+
+        <div id="error"></div>
+</body>
+
+    <script>
+
+        const btn1 = document.getElementById('btn1');
+        const btn2 = document.getElementById('btn2');
+        const res = document.getElementById('res');
+        const error = document.getElementById('error')
+        let etag = ""
+
+        btn1.addEventListener('click',()=>{
+
+            error.innerHTML = "";
+            res.innerHTML = "";
+
+            fetch('http://127.0.0.1:3000/api/data',{
+                method : "GET",
+                headers : {
+                    'Content-Type' : "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+             res.innerHTML = JSON.stringify(data, null, 2);
+             etag = data.etag;
+            })
+            .catch(error=>{
+                console.error(error)
+                error.innerHTML = error;
+            })
+        })
+
+
+        btn2.addEventListener('click',()=>{
+            error.innerHTML = "";
+            res.innerHTML = "";
+            if(etag === ""){
+                error.innerHTML = "ETag is not defined first fetch the new data"
+            }else{
+
+            fetch("http://127.0.0.1:3000/api/data",{
+                method : "GET",
+                headers : {
+                    "if-none-match" : etag
+                }
+            })
+            .then(response => {
+            if(response.status === 304){
+                res.innerHTML = "304 - Cached data, nothing changed";
+                 return;
+            }
+            return response.json();
+            })
+            .catch(error=>{
+                error.innerHTML =error;
+                console.log(error);
+                
+            })
+        }
+        })
+
+        
+    </script>
+</html>

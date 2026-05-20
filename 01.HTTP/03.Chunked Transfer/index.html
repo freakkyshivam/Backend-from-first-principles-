@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chunked Transfer</title>
+    <style>
+        #res{
+            margin: 20px;
+            padding: 20px;
+        }
+        #he{
+            text-align: center;
+            color: green;
+        }
+    </style>
+  </head>
+  <body>
+    <button id="btn">Fetch Chunk data</button>
+
+    <h1>Response :</h1>
+    <div id="res"></div>
+  </body>
+  <script>
+    const btn = document.getElementById("btn");
+    const res = document.getElementById("res");
+
+    btn.addEventListener("click", () => {
+      res.innerHTML = "";
+      console.log("Clicked");
+
+      fetch("http://localhost:3000/stream", {
+        method: "GET",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      })
+        .then((response) => {
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+
+          function read() {
+            reader.read().then(({ done, value }) => {
+              if (done) return;
+              res.innerHTML += decoder.decode(value) + "<br><br>";
+              read(); 
+            });
+          }
+
+          read();
+        })
+
+        .catch((err) => {
+          console.error(err);
+        });
+    });
+  </script>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Content Negotiation</title>
+</head>
+<body>
+
+  <h3>Language :</h3>
+  <select id="lang">
+    <option value="hi">Hindi</option>
+    <option value="en">English</option>
+    <option value="ja">Japanese</option>
+  </select>
+
+  <h3>Content Type :</h3>
+  <select id="ct">
+    <option value="application/json">JSON</option>
+    <option value="application/xml">XML</option>
+    <option value="text/plain">Text</option>
+    <option value="text/html">HTML</option>
+  </select>
+
+  <h3>Encoding :</h3>
+  <select id="encoding">
+    <option value="gzip">gzip</option>
+    <option value="br">br</option>
+    <option value="zstd">zstd</option>
+    <option value="deflate">deflate</option>
+    <option value="identity">none</option>
+  </select>
+
+ 
+<br>
+<br>
+  <button id="btn">Send Request</button>
+
+  <hr>
+
+  <pre id="output"></pre>
+
+  <script>
+    const btn = document.getElementById("btn");
+    const output = document.getElementById("output");
+
+   btn.addEventListener('click', async ()=>{
+    const lang = document.getElementById('lang').value;
+    const ct = document.getElementById('ct').value;
+    const encoding = document.getElementById('encoding').value
+
+  
+   const res = await fetch('http://localhost:3000/data',{
+        headers : {
+            "Accept" : ct,
+            "Accept-Language" : lang,
+             "X-Encoding": encoding
+        }
+    })
+
+    const type = res.headers.get('content-type')
+    
+    if(type.includes('application/json')){
+        const data = await res.json();
+        output.textContent = JSON.stringify(data, null,2);
+    }else{
+        const data = await res.text();
+        output.textContent = data
+    }
+    
+   })
+  </script>
+
+</body>
+</html>

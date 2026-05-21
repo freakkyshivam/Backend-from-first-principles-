@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multipart Form Data</title>
+  </head>
+
+  <body>
+    <h1>Multipart Form Data</h1>
+
+    <form id="myForm">
+      <input type="text" name="name" placeholder="Enter your name" required />
+      <input type="file" name="file" required />
+      <button type="button" id="btn">Submit</button>
+    </form>
+
+    <h1>Response :</h1>
+    <div id="res"></div>
+    <pre id="out"></pre>
+  </body>
+  <script>
+    const form = document.getElementById("myForm");
+    const res = document.getElementById("res");
+    const btn = document.getElementById("btn");
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      const name = formData.get("name");
+      const file = formData.get("file");
+
+      console.log(name);
+      console.log(file);
+
+      fetch("http://localhost:3000/upload", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          document.getElementById('out').textContent = JSON.stringify(data, null, 2)
+          
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    });
+  </script>
+</html>

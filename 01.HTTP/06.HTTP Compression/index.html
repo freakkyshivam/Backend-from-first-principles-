@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Compression</title>
+</head>
+<body>
+
+    <h1>HTTP Compression : </h1>
+    <select name="comp" id="comp">
+        <option value="gzip">gzip</option>
+        <option value="br">br</option>
+        <option value="zstd">zstd</option>
+        <option value="deflate">deflate</option>
+        <option value="identity">identity (No Compression)</option>
+    </select>
+    
+    <button id="btn">Fetch Data</button>
+
+    <pre id="res"></pre>
+</body>
+
+<script>
+
+    const btn = document.getElementById('btn');
+    const res = document.getElementById('res')
+
+    btn.addEventListener('click', ()=>{
+        const compAl = document.getElementById('comp').value
+        console.log(compAl);
+
+        fetch('http://localhost:3000/data',{
+            method : "GET",
+            headers : {
+                "Content-Type" : "application/json",
+                "X-Encoding" : compAl
+            },
+             
+        })
+        .then(response=>response.json())
+        .then(data=>{
+            res.textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(err=>{
+            console.error(err)
+        })
+        
+    })
+    
+</script>
+</html>

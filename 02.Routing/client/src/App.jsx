@@ -108,6 +108,44 @@ const App = () => {
           .then(data=> setRes(data))
         }}
           >Search</button>
+
+          {/* Route versioning */}
+          <h2>Route versioning</h2>
+          <button onClick={()=>{
+            fetch(`http://localhost:3000/api/v1/users`,{
+            method : "GET"
+          })
+          .then(response=> response.json())
+          .then(data=> setRes(data))
+          }}>Fetch user (v1)</button>
+
+          <button onClick={()=>{
+            fetch(`http://localhost:3000/api/v2/users`,{
+            method : "GET"
+          })
+          .then(response=> response.json())
+          .then(data=> setRes(data))
+          }}
+          >Fetch user (v2)</button>
+
+          <button onClick={()=>{
+            fetch(`http://localhost:3000/api/v3/users`,{
+            method : "GET"
+          })
+          .then(response=> response.json())
+          .then(data=> setRes(data))
+          }}>Fetch user (v3)</button>
+
+          <h3>Catch-all Route</h3>
+          <button
+          onClick={()=>{
+            fetch(`http://localhost:3000/api/v4/users`,{
+            method : "GET"
+          })
+          .then(response=> response.json())
+          .then(data=> setRes(data))
+          }}
+          >Catch all route</button>
       </div>
     </div>
   );

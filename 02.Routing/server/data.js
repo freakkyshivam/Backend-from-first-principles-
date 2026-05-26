@@ -83,3 +83,58 @@ export const users = [
       "available": true
     }
   ]
+
+ 
+
+export const usersV1 = [
+  {
+    id: 1,
+    name: "Shivam"
+  },
+  {
+    id: 2,
+    name: "Aman"
+  }
+];
+
+export const usersV2 = [
+  {
+    id: 1,
+    name: "Shivam",
+    email: "shivam@example.com",
+    role: "student"
+  },
+  {
+    id: 2,
+    name: "Aman",
+    email: "aman@example.com",
+    role: "developer"
+  }
+];
+
+export const usersV3 = [
+  {
+    id: 1,
+    name: "Shivam",
+    email: "shivam@example.com",
+    role: "student",
+    age: 21,
+    isPremium: true,
+    socialLinks: {
+      github: "github.com/shivam",
+      linkedin: "linkedin.com/in/shivam"
+    }
+  },
+  {
+    id: 2,
+    name: "Aman",
+    email: "aman@example.com",
+    role: "developer",
+    age: 24,
+    isPremium: false,
+    socialLinks: {
+      github: "github.com/aman",
+      linkedin: "linkedin.com/in/aman"
+    }
+  }
+];

@@ -1,5 +1,5 @@
 
-import { users,books } from "./data.js";
+import { users,books,usersV1, usersV2, usersV3 } from "./data.js";
 
 
 // fetch users
@@ -81,13 +81,21 @@ export const searchData = (req, res) => {
   // Search users
   const matchedUsers = users
     .filter((user) =>
-      user.name.toLowerCase().includes(query)
+      user.name.toLowerCase().includes(query)||
+      user.age.toString().toLowerCase().includes(query)
+      || user.email.toLowerCase().includes(query)
+      || user.role.toLowerCase().includes(query)
+      || user?.posts?.id?.toString().includes(query)
+      || user?.posts?.title?.toLowerCase().includes(query)
+      || user?.posts?.content?.toLowerCase().includes(query)
     )
     .map(({ posts, ...rest }) => rest);
 
   // Search books
   const matchedBooks = books.filter((book) =>
     book.title.toLowerCase().includes(query)
+  || book.author.toLowerCase().includes(query)
+  || book.id.toString().includes(query)
   );
 
   res.status(200).json({
@@ -96,4 +104,10 @@ export const searchData = (req, res) => {
     books: matchedBooks,
   });
 };
+
+
+// route versioning
+export const routev1 = (req, res)=>{
+  res.status(200).json(usersV1)
+}
  

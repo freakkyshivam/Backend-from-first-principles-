@@ -32,7 +32,7 @@ const App = () => {
     <div
       style={{
         display: "flex",
-        height: "100vh",
+        height: "120vh",
         padding: "20px",
         gap: "20px",
       }}
@@ -60,6 +60,7 @@ const App = () => {
           display: "flex",
           flexDirection: "column",
           gap: "10px",
+
         }}
       >
 

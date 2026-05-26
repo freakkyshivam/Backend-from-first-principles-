@@ -111,3 +111,10 @@ export const routev1 = (req, res)=>{
   res.status(200).json(usersV1)
 }
  
+export const routev2 = (req, res)=>{
+  res.status(200).json(usersV2)
+}
+
+export const routev3 = (req, res)=>{
+  res.status(200).json(usersV3)
+}
